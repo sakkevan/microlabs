@@ -1,9 +1,9 @@
 	
 	.global hash
 	.p2align 1 //there is one input, which is the array a
-	.type hash, function
+	.type hash, %function
 		
-	//a is initially stored in r0, and the array is in r1
+	//the address of a is initially stored in r0
 hash: 
 	.fnstart
 	PUSH {r4,lr}
