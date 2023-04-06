@@ -9,6 +9,16 @@ findnum:
 	PUSH {r4,lr}
 	MOV r3, #0 //the result will be stored in r3
 	MOV r4, #10 // r4 contains the number 10 which will be used for operations
+	
+	//we turn the number to positive if it's negative
+	//this is for two reasons
+	//when we check the number of digits it's easier to do a single comparison with 9 instead of also checking if it's less than -9
+	//for the second part we would need a positive number anyway, since we can't calculate the factorial of a negative
+	CMP r0, #0
+	BGT digitsum
+	RSB r0, r0, #0 //reverse sign if negative
+	
+	
 	digitsum:
 	SDIV r1, r0, r4  // r1 is the number divided by 10
 	MUL r1, r1, r4 // r1x10, since the previous r1 is an int, it equals r0 without the last digit
@@ -27,21 +37,18 @@ findnum:
 	
 	
 	skip:
-	//MOV r0, r3 //return the sum of the digits
 	
 		
 	
 	//second part, factorial
-	//we can't calculate the factorial of a negative number so we will make it positive
 	//r3 contains the number we want the factorial of
 	//the result will be calculated in r0
 	MOV r0, #1 
+
 	CMP r3, #0
-	BGT fact
-	RSB r3, r3, #0 //reverse sign if negative
-	
-	BNE fact
-	MOV r3, #1 // 0! = 1
+	//BNE fact
+	IT EQ
+	MOVEQ r3, #1 // 0! = 1
 
 
 	fact:
